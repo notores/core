@@ -20,7 +20,8 @@ function Module(settings) {
             settings = {
                 prefix: settings || '/',
                 dataKey,
-                table: []
+                table: [],
+                responseAsBody: false,
             };
         }
         else {
@@ -45,6 +46,7 @@ function Module(settings) {
         }
         target[constants_1.ROOT_ROUTE] = ((_a = settings === null || settings === void 0 ? void 0 : settings.prefix) === null || _a === void 0 ? void 0 : _a.startsWith('/')) ? settings.prefix : `/${settings.prefix}`;
         target[constants_1.DATA_KEY] = settings.dataKey;
+        target[constants_1.IGNORE_DATA_KEY] = settings.responseAsBody;
         target[constants_1.MODULE_PATH] = filePath;
     };
 }

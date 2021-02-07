@@ -9,7 +9,7 @@ import {generateRoutingParameters, ParamTypes, routingParameterDecorators} from 
 import {getConfig} from "../lib/config";
 import {SystemLogger} from "../Notores";
 import {HttpMethod} from "../lib/ApiMetaData";
-import {DATA_KEY, MODULE_PATH, ROOT_ROUTE} from "../constants";
+import {DATA_KEY, IGNORE_DATA_KEY, MODULE_PATH, ROOT_ROUTE} from "../constants";
 import MiddlewareMetaData from "../lib/MiddlewareMetaData";
 
 export const paths: { [key: string]: any } = [];
@@ -30,6 +30,8 @@ export function bindControllers(server: IServer, controllers: Function[]) {
 
         // @ts-ignore
         const dataKey: string = Clazz[DATA_KEY];
+        // @ts-ignore
+        const ignoreDataKey: string = Clazz[IGNORE_DATA_KEY];
         // @ts-ignore
         const modulePath: string = Clazz[MODULE_PATH];
 
@@ -56,7 +58,9 @@ export function bindControllers(server: IServer, controllers: Function[]) {
                     if (result) {
                         let body;
 
-                        if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
+                        if (ignoreDataKey) {
+                            body = result;
+                        } else if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
                             body = result;
                         } else if (result instanceof Error) {
                             body = {error: result.message};
@@ -125,7 +129,9 @@ export function bindControllers(server: IServer, controllers: Function[]) {
                         return next();
                     }
 
-                    if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
+                    if (ignoreDataKey) {
+                        body = result;
+                    } else if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
                         body = result;
                     } else if (result instanceof Error) {
                         body = {error: result.message};

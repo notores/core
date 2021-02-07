@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import {DATA_KEY, MODULE_PATH, ROOT_ROUTE} from "../constants";
+import {DATA_KEY, IGNORE_DATA_KEY, MODULE_PATH, ROOT_ROUTE} from '../constants';
 import {NotoresApplication} from "../Notores";
 import {repositoryMetadataKey} from "../symbols";
 import { ModuleDecoratorOptions } from '../interfaces/ModuleDecoratorOptions';
@@ -21,7 +21,8 @@ export function Module(settings?: ModuleDecoratorOptions | string): ClassDecorat
             settings = {
                 prefix: settings || '/',
                 dataKey,
-                table: []
+                table: [],
+                responseAsBody: false,
             }
         } else {
             settings = {
@@ -47,6 +48,7 @@ export function Module(settings?: ModuleDecoratorOptions | string): ClassDecorat
 
         target[ROOT_ROUTE] = settings?.prefix?.startsWith('/') ? settings.prefix : `/${settings.prefix}`;
         target[DATA_KEY] = settings.dataKey;
+        target[IGNORE_DATA_KEY] = settings.responseAsBody;
         target[MODULE_PATH] = filePath;
     }
 }

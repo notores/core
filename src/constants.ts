@@ -4,6 +4,7 @@
 export const ROOT_ROUTE = 'ROOT_ROUTE';
 export const DATA_KEY = 'DATA_KEY';
 export const MODULE_PATH = 'MODULE_PATH';
+export const IGNORE_DATA_KEY = 'IGNORE_DATA_KEY';
 
 /**
  * HTTP METHOD CONSTANTS

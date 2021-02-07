@@ -1,6 +1,6 @@
 {
   "name": "@notores/core",
-  "version": "0.5.1",
+  "version": "0.6.0-beta.0",
   "description": "Notores core module",
   "main": "dist/index.js",
   "repository": "git@github.com:notores/core.git",

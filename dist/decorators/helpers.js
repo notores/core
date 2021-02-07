@@ -26,6 +26,8 @@ function bindControllers(server, controllers) {
         // @ts-ignore
         const dataKey = Clazz[constants_1.DATA_KEY];
         // @ts-ignore
+        const ignoreDataKey = Clazz[constants_1.IGNORE_DATA_KEY];
+        // @ts-ignore
         const modulePath = Clazz[constants_1.MODULE_PATH];
         if (!rootRoute || !rootRoute.startsWith('/')) {
             // TODO test it
@@ -44,7 +46,10 @@ function bindControllers(server, controllers) {
                     const result = await routingFunction(...params);
                     if (result) {
                         let body;
-                        if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
+                        if (ignoreDataKey) {
+                            body = result;
+                        }
+                        else if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
                             body = result;
                         }
                         else if (result instanceof Error) {
@@ -99,7 +104,10 @@ function bindControllers(server, controllers) {
                     if (result === null || result === undefined) {
                         return next();
                     }
-                    if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
+                    if (ignoreDataKey) {
+                        body = result;
+                    }
+                    else if (typeof result === 'object' && !Array.isArray(result) && result.hasOwnProperty(dataKey)) {
                         body = result;
                     }
                     else if (result instanceof Error) {
